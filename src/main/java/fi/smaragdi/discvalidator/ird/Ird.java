@@ -1,4 +1,4 @@
-package fi.smaragdi.discvalidator;
+package fi.smaragdi.discvalidator.ird;
 
 import java.io.*;
 import java.nio.file.Path;
