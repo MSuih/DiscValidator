@@ -19,9 +19,4 @@ public record Ird(
         int uid) {
 
     public record FileChecksum(long key, byte[] hash) {}
-
-    public static Ird parse(Path file) throws IOException {
-        IrdParser parser = new IrdParser(file);
-        return parser.parse();
-    }
 }

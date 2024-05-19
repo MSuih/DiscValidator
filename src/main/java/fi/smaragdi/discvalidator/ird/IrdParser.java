@@ -16,16 +16,13 @@ import java.util.zip.CheckedInputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipException;
 
-class IrdParser {
-    private final Path irdFile;
-
-    public IrdParser(Path file) {
-        this.irdFile = file;
+public class IrdParser {
+    private IrdParser() {
+        throw new AssertionError();
     }
-
     private static final byte[] IRD_MAGIC = "3IRD".getBytes(StandardCharsets.UTF_8);
 
-    public synchronized Ird parse() throws IOException {
+    public static synchronized Ird parse(Path irdFile) throws IOException {
         try (BinaryInputStream.CheckedBinaryInputStream input = new BinaryInputStream.CheckedBinaryInputStream(new CheckedInputStream(open(irdFile), new CRC32()), ByteOrder.LITTLE_ENDIAN)) {
 
             byte[] magic = input.readBytes(4);
@@ -97,7 +94,7 @@ class IrdParser {
         }
     }
 
-    public static InputStream open(Path file) throws IOException {
+    private static InputStream open(Path file) throws IOException {
         try {
             return new BufferedInputStream(new GZIPInputStream(Files.newInputStream(file)));
         } catch (ZipException e) {
