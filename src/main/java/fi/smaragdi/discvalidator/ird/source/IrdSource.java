@@ -1,13 +1,13 @@
 package fi.smaragdi.discvalidator.ird.source;
 
 import java.io.InputStream;
-import java.util.List;
+import java.util.Collection;
 
-public interface IrdSource<T extends IrdSource.IrdLink> {
-    List<T> listMatchingIrds(String serial);
-    InputStream download(T selection);
+public interface IrdSource {
+    Collection<? extends IrdInfo> listMatchingIrds(String serial);
+    InputStream download(IrdInfo selection);
 
-    interface IrdLink {
+    interface IrdInfo {
         String getTitle();
         String getFirmwareVersion();
         String getGameVersion();

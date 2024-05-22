@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HexFormat;
 import java.util.zip.CRC32;
@@ -22,8 +20,8 @@ public class IrdParser {
     }
     private static final byte[] IRD_MAGIC = "3IRD".getBytes(StandardCharsets.UTF_8);
 
-    public static synchronized Ird parse(Path irdFile) throws IOException {
-        try (BinaryInputStream.CheckedBinaryInputStream input = new BinaryInputStream.CheckedBinaryInputStream(new CheckedInputStream(open(irdFile), new CRC32()), ByteOrder.LITTLE_ENDIAN)) {
+    public static synchronized Ird parse(InputStream ird) throws IOException {
+        try (BinaryInputStream.CheckedBinaryInputStream input = wrap(ird)) {
 
             byte[] magic = input.readBytes(4);
             if (Arrays.mismatch(IRD_MAGIC, magic) != -1) {
@@ -94,12 +92,21 @@ public class IrdParser {
         }
     }
 
-    private static InputStream open(Path file) throws IOException {
+    private static BinaryInputStream.CheckedBinaryInputStream wrap(InputStream stream) throws IOException {
+        boolean markable = stream.markSupported();
         try {
-            return new BufferedInputStream(new GZIPInputStream(Files.newInputStream(file)));
+            if (markable) {
+                stream.mark(1024);
+            }
+            return new BinaryInputStream.CheckedBinaryInputStream(new CheckedInputStream((new GZIPInputStream(stream)), new CRC32()), ByteOrder.LITTLE_ENDIAN);
         } catch (ZipException e) {
+            if (markable) {
+                stream.reset();
+            } else {
+                throw new IllegalArgumentException("IRD was not compressed and stream could not be reset");
+            }
             // Not compressed, try to read as uncompressed data
-            return new BufferedInputStream(Files.newInputStream(file));
+            return new BinaryInputStream.CheckedBinaryInputStream(new CheckedInputStream((stream), new CRC32()), ByteOrder.LITTLE_ENDIAN);
         }
     }
 }
