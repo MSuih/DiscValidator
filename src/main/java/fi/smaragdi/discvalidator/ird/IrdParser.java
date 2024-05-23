@@ -22,7 +22,6 @@ public class IrdParser {
 
     public static synchronized Ird parse(InputStream ird) throws IOException {
         try (BinaryInputStream.CheckedBinaryInputStream input = wrap(ird)) {
-
             byte[] magic = input.readBytes(4);
             if (Arrays.mismatch(IRD_MAGIC, magic) != -1) {
                 HexFormat hexFormat = HexFormat.of().withPrefix("0x");

@@ -71,9 +71,16 @@ public class BinaryInputStream implements AutoCloseable {
         return ByteBuffer.wrap(bytes).order(byteOrder).getLong();
     }
 
-    public byte[] readBytes(int count) throws IOException {
-        byte[] bytes = new byte[count];
-        check(input.read(bytes), count);
+    public byte[] readBytes(int size) throws IOException {
+        int current = 0;
+        byte[] bytes = new byte[size];
+        do {
+            int read = input.read(bytes, current, size - current);
+            if (read < 0) {
+                throw new EOFException();
+            }
+            current += read;
+        } while (current < size);
         return bytes;
     }
 
