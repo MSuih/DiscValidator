@@ -8,11 +8,13 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class FlexByIrdSource implements IrdSource {
     public static final String LIST_ALL_URL = "https://flexby420.github.io/playstation_3_ird_database/all.json";
@@ -71,16 +73,17 @@ public class FlexByIrdSource implements IrdSource {
     }
 
     @Override
-    public byte[] download(IrdInfo selection) {
+    public InputStream download(IrdInfo selection) {
         if (selection instanceof FlexByIrdInfo info) {
             Request request = new Request.Builder()
                     .url(DOWNLOAD_URL + info.link)
                     .build();
-            try (Response response = client.newCall(request).execute()) {
+            try {
+                Response response = client.newCall(request).execute();
                 if (response.body() == null) {
                     throw new NullPointerException("Empty response from server");
                 }
-                return response.body().bytes();
+                return response.body().byteStream();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

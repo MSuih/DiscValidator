@@ -1,10 +1,11 @@
 package fi.smaragdi.discvalidator.ird.source;
 
+import java.io.InputStream;
 import java.util.Collection;
 
 public interface IrdSource {
     Collection<? extends IrdInfo> listMatchingIrds(String serial);
-    byte[] download(IrdInfo selection);
+    InputStream download(IrdInfo selection);
 
     interface IrdInfo {
         String getTitle();
