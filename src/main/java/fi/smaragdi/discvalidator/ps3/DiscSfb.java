@@ -46,6 +46,7 @@ public record DiscSfb(String serial, Set<ContentFlag> flags) {
             return set;
         }
     }
+
     public static DiscSfb parse(Path file) throws IOException {
         try (BinaryInputStream bis = new BinaryInputStream(new FileInputStream(file.toFile()), ByteOrder.BIG_ENDIAN)) {
             String magic = bis.readFixedLengthString(4);

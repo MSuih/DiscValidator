@@ -1,8 +1,5 @@
 package fi.smaragdi.discvalidator.ird;
 
-import java.io.*;
-import java.nio.file.Path;
-
 public record Ird(
         String serial,
         String title,

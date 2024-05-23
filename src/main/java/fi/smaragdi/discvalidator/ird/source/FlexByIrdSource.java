@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 public class FlexByIrdSource implements IrdSource {
     public static final String LIST_ALL_URL = "https://flexby420.github.io/playstation_3_ird_database/all.json";
@@ -65,7 +64,7 @@ public class FlexByIrdSource implements IrdSource {
             if (response.body() == null) {
                 throw new NullPointerException("Empty response from server");
             }
-            Map<String, List<FlexByIrdInfo>> allIrds = mapper.readValue(response.body().byteStream(), new TypeReference<Map<String, List<FlexByIrdInfo>>>() {});
+            Map<String, List<FlexByIrdInfo>> allIrds = mapper.readValue(response.body().byteStream(), new TypeReference<>() {});
             return allIrds.getOrDefault(serial, Collections.emptyList());
         } catch (IOException e) {
             throw new RuntimeException(e);

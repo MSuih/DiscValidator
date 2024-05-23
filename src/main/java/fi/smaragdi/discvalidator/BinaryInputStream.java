@@ -13,6 +13,7 @@ import java.util.zip.GZIPInputStream;
 public class BinaryInputStream implements AutoCloseable {
     private InputStream input;
     private final ByteOrder byteOrder;
+
     public BinaryInputStream(InputStream input, ByteOrder byteOrder) {
         this.input = input;
         this.byteOrder = byteOrder;
@@ -93,7 +94,6 @@ public class BinaryInputStream implements AutoCloseable {
             return ((CheckedInputStream) getUnderlyingStream()).getChecksum().getValue();
         }
     }
-
 
     /*package-private*/ InputStream getUnderlyingStream() {
         return input;

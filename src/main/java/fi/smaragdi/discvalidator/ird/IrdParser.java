@@ -2,7 +2,6 @@ package fi.smaragdi.discvalidator.ird;
 
 import fi.smaragdi.discvalidator.BinaryInputStream;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteOrder;
@@ -18,6 +17,7 @@ public class IrdParser {
     private IrdParser() {
         throw new AssertionError();
     }
+
     private static final byte[] IRD_MAGIC = "3IRD".getBytes(StandardCharsets.UTF_8);
 
     public static synchronized Ird parse(InputStream ird) throws IOException {
