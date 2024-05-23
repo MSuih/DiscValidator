@@ -25,7 +25,7 @@ public class IrdParser {
             byte[] magic = input.readBytes(4);
             if (Arrays.mismatch(IRD_MAGIC, magic) != -1) {
                 HexFormat hexFormat = HexFormat.of().withPrefix("0x");
-                throw new IllegalArgumentException(STR."Not valid ird file, magic \{hexFormat.formatHex(magic)}");
+                throw new IllegalArgumentException("Not valid ird file, magic " + hexFormat.formatHex(magic));
             }
 
             byte version = input.readByte();
@@ -67,7 +67,7 @@ public class IrdParser {
 
             int padding = input.readInt();
             if (padding != 0) {
-                throw new IllegalArgumentException(STR."Padding contained \{padding}");
+                throw new IllegalArgumentException("Padding contained " + padding);
             }
             byte[] pic = null;
             if (version == 9) {

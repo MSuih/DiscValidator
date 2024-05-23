@@ -27,7 +27,7 @@ public class DirectoryParser {
 
     public static Collection<DirectoryItem> parse(Path rootDirectory, Set<FileVisitOption> options) {
         if (!Files.isDirectory(rootDirectory)) {
-            throw new IllegalArgumentException(STR."Invalid directory \{rootDirectory}");
+            throw new IllegalArgumentException("Invalid directory " + rootDirectory);
         }
         Deque<DirectoryItem> parseResults = new ConcurrentLinkedDeque<>();
 

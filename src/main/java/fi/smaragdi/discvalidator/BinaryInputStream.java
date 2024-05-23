@@ -102,7 +102,7 @@ public class BinaryInputStream implements AutoCloseable {
     public void skip(long bytes) throws IOException {
         long skip = input.skip(bytes);
         if (skip >= bytes) {
-            throw new EOFException(STR."Tried to seek \{bytes}, ended up skipping \{skip} instead");
+            throw new EOFException("Tried to seek " + bytes + ", ended up skipping " + skip + " instead");
         }
     }
 
