@@ -1,9 +1,13 @@
 package fi.smaragdi.discvalidator;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
@@ -33,18 +37,23 @@ public class BinaryInputStream implements AutoCloseable {
         return new String(readBytes(len), StandardCharsets.UTF_8);
     }
 
-    public static void check(int size, int expected) throws EOFException {
-        check(size);
-        if (size != expected) {
-            throw new EOFException();
-        }
-    }
-
     public static int check(int value) throws EOFException {
         if (value < 0) {
             throw new EOFException();
         }
         return value;
+    }
+
+    public String readNullTerminatedString() throws IOException {
+        try (ByteArrayOutputStream byteArray = new ByteArrayOutputStream()) {
+            while (true) {
+                byte b = readByte();
+                if (b == '\0') {
+                    return new String(byteArray.toByteArray(), StandardCharsets.UTF_8);
+                }
+                byteArray.write(b);
+            }
+        }
     }
 
     public String readString() throws IOException {
@@ -95,6 +104,21 @@ public class BinaryInputStream implements AutoCloseable {
         }
     }
 
+    public static class SeekableBinaryInputStream extends BinaryInputStream {
+
+        public SeekableBinaryInputStream(FileInputStream inputStream, ByteOrder byteOrder) {
+            super(inputStream, byteOrder);
+        }
+
+        public void seek(long position) throws IOException {
+            ((FileInputStream) getUnderlyingStream()).getChannel().position(position);
+        }
+
+        public long getPosition() throws IOException {
+            return ((FileInputStream) getUnderlyingStream()).getChannel().position();
+        }
+    }
+
     /*package-private*/ InputStream getUnderlyingStream() {
         return input;
     }
@@ -107,7 +131,8 @@ public class BinaryInputStream implements AutoCloseable {
     }
 
     @Override
-    public void close() {
+    public void close() throws IOException {
+        this.input.close();
         this.input = null;
     }
 }
