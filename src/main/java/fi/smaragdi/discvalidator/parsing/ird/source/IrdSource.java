@@ -1,4 +1,4 @@
-package fi.smaragdi.discvalidator.ird.source;
+package fi.smaragdi.discvalidator.parsing.ird.source;
 
 import java.io.InputStream;
 import java.util.Collection;

@@ -1,6 +1,6 @@
-package fi.smaragdi.discvalidator.ps3;
+package fi.smaragdi.discvalidator.parsing.ps3;
 
-import fi.smaragdi.discvalidator.BinaryInputStream;
+import fi.smaragdi.discvalidator.parsing.BinaryInputStream;
 
 import java.io.FileInputStream;
 import java.io.IOException;

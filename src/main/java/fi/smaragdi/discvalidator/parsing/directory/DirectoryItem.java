@@ -1,4 +1,4 @@
-package fi.smaragdi.discvalidator.directory;
+package fi.smaragdi.discvalidator.parsing.directory;
 
 public record DirectoryItem(String path, boolean directory, byte[] hash) {
     private static final byte[] dirHash = new byte[0];

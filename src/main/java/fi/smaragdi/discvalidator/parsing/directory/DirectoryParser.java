@@ -1,4 +1,4 @@
-package fi.smaragdi.discvalidator.directory;
+package fi.smaragdi.discvalidator.parsing.directory;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

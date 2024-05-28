@@ -1,4 +1,4 @@
-package fi.smaragdi.discvalidator.ird;
+package fi.smaragdi.discvalidator.parsing.ird;
 
 import com.github.stephenc.javaisotools.loopfs.iso9660.Iso9660FileEntry;
 import com.github.stephenc.javaisotools.loopfs.iso9660.Iso9660FileSystem;

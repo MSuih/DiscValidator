@@ -1,4 +1,4 @@
-package fi.smaragdi.discvalidator.ird;
+package fi.smaragdi.discvalidator.parsing.ird;
 
 public record Ird(
         String serial,

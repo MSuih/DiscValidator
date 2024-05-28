@@ -1,6 +1,6 @@
-package fi.smaragdi.discvalidator.ird;
+package fi.smaragdi.discvalidator.parsing.ird;
 
-import fi.smaragdi.discvalidator.BinaryInputStream;
+import fi.smaragdi.discvalidator.parsing.BinaryInputStream;
 
 import java.io.IOException;
 import java.io.InputStream;
